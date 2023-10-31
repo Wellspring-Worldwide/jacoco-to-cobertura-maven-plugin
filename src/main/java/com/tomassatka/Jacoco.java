@@ -62,6 +62,9 @@ public class Jacoco {
         @Attribute(name = "name")
         private String name;
 
+        @ElementList(name = "group", required = false, inline = true)
+        private List<Group> groups = new ArrayList<>();
+
         @ElementList(name = "package", required = false, inline = true)
         private List<PackageElement> packages = new ArrayList<>();
 
@@ -73,6 +76,14 @@ public class Jacoco {
 
         public long timestamp() {
             return sessionInfos.isEmpty() ? 0 : Long.parseLong(sessionInfos.get(0).getStart()) / 1000;
+        }
+
+        public List<Group> getGroups() {
+            return groups;
+        }
+
+        public void setGroups(List<Group> groups) {
+            this.groups = groups;
         }
 
         public List<PackageElement> getPackages() {
@@ -178,6 +189,31 @@ public class Jacoco {
             });
         }
 
+    }
+
+    @Root(name = "group", strict = false)
+    static class Group {
+        @Attribute(name = "name", required = false)
+        private String name;
+
+        @ElementList(name = "package", required = false, inline = true)
+        private List<PackageElement> packages = new ArrayList<>();
+
+        public String getName() {
+            return name;
+        }
+
+        public List<PackageElement> getPackages() {
+            return packages;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setPackages(List<PackageElement> packages) {
+            this.packages = packages;
+        }
     }
 
     @Root(name = "package", strict = false)

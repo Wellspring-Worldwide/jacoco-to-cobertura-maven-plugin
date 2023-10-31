@@ -20,7 +20,7 @@ To use this plugin, add it to your Maven project's `pom.xml`:
             <executions>
                 <execution>
                     <goals>
-                        <goal>convert</goal>
+                        <goal>jacocoToCobertura</goal>
                     </goals>
                 </execution>
             </executions>

@@ -2,11 +2,10 @@ package com.tomassatka;
 
 import java.util.Collection;
 import java.util.Collections;
-
 import java.util.List;
 import java.util.Map;
-
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
@@ -137,10 +136,17 @@ public class Cobertura {
             this.timestamp = j.timestamp();
             this.sources = (sources.isEmpty() ? List.of(".") : sources).stream().map(Source::new)
                     .collect(Collectors.toList());
-            this.packages = j.getPackages().stream().map(Package::new).collect(Collectors.toList());
             this.lineRate = j.lineRate();
             this.branchRate = j.branchRate();
             this.complexity = j.complexity();
+
+            List<Jacoco.PackageElement> allPackages = Stream.concat(
+                    j.getPackages().stream(),
+                    j.getGroups().stream()
+                            .flatMap(group -> group.getPackages().stream()))
+                    .collect(Collectors.toList());
+
+            this.packages = allPackages.stream().map(Package::new).collect(Collectors.toList());
         }
     }
 
