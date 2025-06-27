@@ -73,11 +73,12 @@ class JacocoToCoberturaTask {
     }
 
     public void execute() throws MojoExecutionException, JacocoToCoberturaException, IOException {
-        log.info("Converting JaCoCo report to Cobertura");
-
         if (!inputFile.exists()) {
-            throw new MojoExecutionException("File " + inputFile.getAbsolutePath() + " does not exist");
+            log.info("Skipping JaCoCo conversion due to missing input file: " + inputFile);
+            return;
         }
+
+        log.info("Converting JaCoCo report to Cobertura");
 
         File outputDirectory = outputFile.getParentFile();
         if (!outputDirectory.exists()) {
