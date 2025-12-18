@@ -36,6 +36,7 @@ public class Cobertura {
                             (existingValue, newValue) -> newValue));
 
             int nextMethodLine = packMethods.values().stream()
+                    .filter(lineNr -> lineNr > currentMethodLine)
                     .mapToInt(Integer::intValue)
                     .min()
                     .orElse(Integer.MAX_VALUE);
